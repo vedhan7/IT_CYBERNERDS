@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/event_repository.dart';
 import '../data/club_repository.dart';
+import '../../../core/mock_data.dart'; // MOCK DATA IMPORT
 
 /// Singleton event repository provider.
 final eventRepositoryProvider = Provider<EventRepository>((ref) {
@@ -9,13 +10,13 @@ final eventRepositoryProvider = Provider<EventRepository>((ref) {
 
 /// Stream of all events.
 final eventsStreamProvider = StreamProvider<List<Event>>((ref) {
-  return ref.watch(eventRepositoryProvider).getEvents();
+  return Stream.value(mockEvents);
 });
 
 /// Stream of events for a specific club.
 final eventsByClubProvider =
     StreamProvider.family<List<Event>, String>((ref, clubId) {
-  return ref.watch(eventRepositoryProvider).getEventsByClub(clubId);
+  return Stream.value(mockEvents.where((e) => e.clubId == clubId).toList());
 });
 
 /// Singleton club repository provider.
@@ -25,5 +26,5 @@ final clubRepositoryProvider = Provider<ClubRepository>((ref) {
 
 /// Stream of all clubs.
 final clubsStreamProvider = StreamProvider<List<Club>>((ref) {
-  return ref.watch(clubRepositoryProvider).getClubs();
+  return Stream.value(mockClubs);
 });

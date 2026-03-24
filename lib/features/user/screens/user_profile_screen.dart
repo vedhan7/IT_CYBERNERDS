@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/custom_button.dart';
+import 'package:go_router/go_router.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../providers/user_providers.dart';
 
@@ -126,6 +127,19 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                   _infoCard(Icons.event, 'Events Joined',
                       '${user.joinedEvents.length}', theme),
                   const SizedBox(height: 32),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => context.go('/admin'),
+                      icon: const Icon(Icons.admin_panel_settings, color: AppColors.primary),
+                      label: const Text('Switch to Admin Panel', style: TextStyle(color: AppColors.primary)),
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: AppColors.primary),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(

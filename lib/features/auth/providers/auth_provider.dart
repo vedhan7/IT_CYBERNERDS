@@ -14,14 +14,16 @@ final authStateProvider = StreamProvider<User?>((ref) {
 
 /// Fetches the current user's Firestore profile.
 final currentUserProvider = FutureProvider<AppUser?>((ref) async {
-  final authState = ref.watch(authStateProvider);
-  return authState.when(
-    data: (user) {
-      if (user == null) return null;
-      return ref.read(authRepositoryProvider).getCurrentUserData();
-    },
-    loading: () => null,
-    error: (_, __) => null,
+  // Prototype Bypass: Return a mock user instead of requiring Firebase Auth.
+  return AppUser(
+    uid: 'mock_uid_123',
+    name: 'Jane Student',
+    email: 'jane@college.edu',
+    college: 'Default College',
+    department: 'Computer Science',
+    role: 'student',
+    createdAt: DateTime.now(),
+    joinedEvents: ['e1'],
   );
 });
 

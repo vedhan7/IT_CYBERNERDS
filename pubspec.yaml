@@ -1,7 +1,7 @@
 name: college_club_app
 description: "IT CLUB — College Club Event Management App"
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ^3.10.7
@@ -33,6 +33,7 @@ dependencies:
   flutter_local_notifications: any
   shimmer: any
   uuid: any
+  shorebird_code_push: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -41,3 +42,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - shorebird.yaml

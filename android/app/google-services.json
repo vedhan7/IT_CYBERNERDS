@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "415273004224",
+    "project_id": "ultra-optics-447502-a2",
+    "storage_bucket": "ultra-optics-447502-a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415273004224:android:29b7ee1b4d86ddb53a5125",
+        "android_client_info": {
+          "package_name": "com.itclub.college_club_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415273004224-n7epk7q4e079884mm2lk0nljl5qref0g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVv5JnKfWkhp1PpcMgeIr8Pu9yQoN4Mmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415273004224-n7epk7q4e079884mm2lk0nljl5qref0g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
