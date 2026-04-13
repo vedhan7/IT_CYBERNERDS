@@ -33,11 +33,11 @@ class DefaultFirebaseOptions {
   // ── Replace these placeholder values ──
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'YOUR-ANDROID-API-KEY',
-    appId: 'YOUR-ANDROID-APP-ID',
-    messagingSenderId: 'YOUR-SENDER-ID',
-    projectId: 'YOUR-PROJECT-ID',
-    storageBucket: 'YOUR-STORAGE-BUCKET',
+    apiKey: 'AIzaSyDVv5JnKfWkhp1PpcMgeIr8Pu9yQoN4Mmk',
+    appId: '1:415273004224:android:29b7ee1b4d86ddb53a5125',
+    messagingSenderId: '415273004224',
+    projectId: 'ultra-optics-447502-a2',
+    storageBucket: 'ultra-optics-447502-a2.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

@@ -143,8 +143,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(
-                      onPressed: () =>
-                          ref.read(authRepositoryProvider).signOut(),
+                      onPressed: () {
+                        ref.read(hardcodedUserProvider.notifier).setUser(null);
+                        ref.read(authRepositoryProvider).signOut();
+                      },
                       icon:
                           const Icon(Icons.logout, color: AppColors.error),
                       label: const Text('Logout',

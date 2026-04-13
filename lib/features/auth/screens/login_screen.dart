@@ -8,8 +8,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/custom_button.dart';
 
 import '../providers/auth_provider.dart';
-
-class LoginScreen extends ConsumerStatefulWidget {
+import '../data/auth_repository.dart';class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
@@ -58,10 +57,42 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
+
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
     try {
+      if (email == 'admin' && password == 'admin@123') {
+        ref.read(hardcodedUserProvider.notifier).setUser(AppUser(
+          uid: 'hardcoded_admin_uid',
+          name: 'Admin',
+          email: 'admin@college.edu',
+          college: 'Default College',
+          department: 'Administration',
+          role: 'admin',
+          createdAt: DateTime.now(),
+        ));
+        context.go('/admin');
+        return;
+      }
+
+      if (email == 'viswa' && password == 'viswa123') {
+        ref.read(hardcodedUserProvider.notifier).setUser(AppUser(
+          uid: 'hardcoded_user_uid',
+          name: 'Viswa Student',
+          email: 'viswa@college.edu',
+          college: 'Default College',
+          department: 'Computer Science',
+          role: 'student',
+          createdAt: DateTime.now(),
+        ));
+        context.go('/user');
+        return;
+      }
+
       await ref.read(authRepositoryProvider).signIn(
-            email: _emailController.text,
-            password: _passwordController.text,
+            email: email,
+            password: password,
           );
       // GoRouter redirect will handle navigation
     } catch (e) {
@@ -133,9 +164,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        validator: Validators.email,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) return 'Username/Email is required';
+                          return null;
+                        },
                         decoration: const InputDecoration(
-                          labelText: AppStrings.email,
+                          labelText: 'Username or Email',
                           prefixIcon: Icon(Icons.email_outlined),
                         ),
                       ),

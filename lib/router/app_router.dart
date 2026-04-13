@@ -36,12 +36,30 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: '/splash',
     debugLogDiagnostics: true,
     redirect: (context, state) {
-      // Prototype Bypass: directly go to user panel
+      final authState = ref.watch(authStateProvider).value;
+      final hardcodedUser = ref.watch(hardcodedUserProvider);
+      final isLoggedIn = authState != null || hardcodedUser != null;
+      
       final isSplash = state.matchedLocation == '/splash';
       final isLoginOrRegister = state.matchedLocation == '/login' || state.matchedLocation == '/register';
 
-      if (isSplash || isLoginOrRegister) {
-        return '/user'; // Prototype mode: go strictly to user panel
+      if (isSplash) {
+        if (!isLoggedIn) return '/login';
+        if (hardcodedUser != null) {
+          return hardcodedUser.isAdmin ? '/admin' : '/user';
+        }
+        return userRole == 'admin' ? '/admin' : '/user';
+      }
+
+      if (isLoggedIn && isLoginOrRegister) {
+        if (hardcodedUser != null) {
+          return hardcodedUser.isAdmin ? '/admin' : '/user';
+        }
+        return userRole == 'admin' ? '/admin' : '/user';
+      }
+
+      if (!isLoggedIn && !isLoginOrRegister) {
+        return '/login';
       }
 
       return null;

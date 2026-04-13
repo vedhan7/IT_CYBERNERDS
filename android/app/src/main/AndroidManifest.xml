@@ -2,7 +2,7 @@
     package="com.itclub.college_club_app">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="college_club_app"
+        android:label="cyber nauts"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

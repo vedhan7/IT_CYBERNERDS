@@ -12,19 +12,25 @@ final authStateProvider = StreamProvider<User?>((ref) {
   return ref.watch(authRepositoryProvider).authStateChanges;
 });
 
+/// Hardcoded user state for bypasses
+class HardcodedUserNotifier extends Notifier<AppUser?> {
+  @override
+  AppUser? build() => null;
+  void setUser(AppUser? user) => state = user;
+}
+
+final hardcodedUserProvider = NotifierProvider<HardcodedUserNotifier, AppUser?>(HardcodedUserNotifier.new);
+
 /// Fetches the current user's Firestore profile.
 final currentUserProvider = FutureProvider<AppUser?>((ref) async {
-  // Prototype Bypass: Return a mock user instead of requiring Firebase Auth.
-  return AppUser(
-    uid: 'mock_uid_123',
-    name: 'Jane Student',
-    email: 'jane@college.edu',
-    college: 'Default College',
-    department: 'Computer Science',
-    role: 'student',
-    createdAt: DateTime.now(),
-    joinedEvents: ['e1'],
-  );
+  final hardcoded = ref.watch(hardcodedUserProvider);
+  if (hardcoded != null) return hardcoded;
+
+  try {
+    return await ref.read(authRepositoryProvider).getCurrentUserData();
+  } catch (_) {
+    return null;
+  }
 });
 
 /// Derived provider returning the user's role ("admin" or "student").
