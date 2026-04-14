@@ -153,39 +153,63 @@ class _EditEventScreenState extends ConsumerState<EditEventScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: Container(
-                      height: 180,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(16),
-                        image: _bannerImage != null
-                            ? DecorationImage(
-                                image: FileImage(_bannerImage!),
-                                fit: BoxFit.cover)
-                            : _existingBannerUrl != null
+                  Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: Container(
+                          height: 180,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(16),
+                            image: _bannerImage != null
                                 ? DecorationImage(
-                                    image:
-                                        NetworkImage(_existingBannerUrl!),
+                                    image: FileImage(_bannerImage!),
                                     fit: BoxFit.cover)
-                                : null,
+                                : _existingBannerUrl != null
+                                    ? DecorationImage(
+                                        image:
+                                            NetworkImage(_existingBannerUrl!),
+                                        fit: BoxFit.cover)
+                                    : null,
+                          ),
+                          child: _bannerImage == null &&
+                                  _existingBannerUrl == null
+                              ? const Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add_photo_alternate_outlined,
+                                        size: 40),
+                                    SizedBox(height: 8),
+                                    Text('Change/Add Banner'),
+                                  ],
+                                )
+                              : null,
+                        ),
                       ),
-                      child: _bannerImage == null &&
-                              _existingBannerUrl == null
-                          ? const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.add_photo_alternate_outlined,
-                                    size: 40),
-                                SizedBox(height: 8),
-                                Text('Change Banner'),
-                              ],
-                            )
-                          : null,
-                    ),
+                      if (_bannerImage != null || _existingBannerUrl != null)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                            style: IconButton.styleFrom(
+                              backgroundColor: Colors.black54,
+                              foregroundColor: Colors.white,
+                            ),
+                            icon: const Icon(Icons.close),
+                            tooltip: 'Remove Banner',
+                            onPressed: () {
+                              setState(() {
+                                _bannerImage = null;
+                                _existingBannerUrl = null;
+                              });
+                            },
+                          ),
+                        ),
+                    ],
                   ),
                   const SizedBox(height: 20),
                   TextFormField(

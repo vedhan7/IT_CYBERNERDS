@@ -195,48 +195,71 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // ── Banner picker ──
-              GestureDetector(
-                onTap: _isLoading ? null : _pickImage,
-                child: Container(
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(16),
-                    image: _bannerImage != null
-                        ? DecorationImage(
-                            image: FileImage(_bannerImage!),
-                            fit: BoxFit.cover,
-                          )
-                        : null,
-                  ),
-                  child: _bannerImage == null
-                      ? const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.add_photo_alternate_outlined, size: 40),
-                            SizedBox(height: 8),
-                            Text('Add Banner Image'),
-                          ],
-                        )
-                      : _isUploading
-                          ? Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black54,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: const Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CircularProgressIndicator(color: Colors.white),
-                                    SizedBox(height: 12),
-                                    Text('Uploading...', style: TextStyle(color: Colors.white)),
-                                  ],
-                                ),
-                              ),
+              Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  GestureDetector(
+                    onTap: _isLoading ? null : _pickImage,
+                    child: Container(
+                      height: 180,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(16),
+                        image: _bannerImage != null
+                            ? DecorationImage(
+                                image: FileImage(_bannerImage!),
+                                fit: BoxFit.cover,
+                              )
+                            : null,
+                      ),
+                      child: _bannerImage == null
+                          ? const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.add_photo_alternate_outlined, size: 40),
+                                SizedBox(height: 8),
+                                Text('Add Banner Image'),
+                              ],
                             )
-                          : null,
-                ),
+                          : _isUploading
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black54,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: const Center(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        CircularProgressIndicator(color: Colors.white),
+                                        SizedBox(height: 12),
+                                        Text('Uploading...', style: TextStyle(color: Colors.white)),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : null,
+                    ),
+                  ),
+                  if (_bannerImage != null && !_isUploading)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.black54,
+                          foregroundColor: Colors.white,
+                        ),
+                        icon: const Icon(Icons.close),
+                        tooltip: 'Remove Banner',
+                        onPressed: () {
+                          setState(() {
+                            _bannerImage = null;
+                          });
+                        },
+                      ),
+                    ),
+                ],
               ),
               const SizedBox(height: 20),
 
