@@ -258,7 +258,7 @@ story.append(Paragraph(
     styles['BodyText2']
 ))
 story.append(Paragraph(
-    '<font color="#B24C38"><b>https://github.com/vedhan7/IT_CYBERNERDS/releases/tag/v1.0.0</b></font>',
+    '<font color="#B24C38"><b>https://github.com/Mahalakshmi77777/IT_CYBERNUARTS/releases/tag/v1.0.1</b></font>',
     styles['BodyText2']
 ))
 story.append(Spacer(1, 8))
