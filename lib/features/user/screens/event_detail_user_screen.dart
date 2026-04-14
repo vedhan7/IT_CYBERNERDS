@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_colors.dart';
@@ -28,16 +29,39 @@ class _EventDetailUserScreenState
       await ref
           .read(registrationRepositoryProvider)
           .joinEvent(event.id, userId);
+          
       ref.invalidate(eventsStreamProvider);
+      ref.invalidate(currentUserProvider);
+      ref.invalidate(userRegistrationsProvider);
+      
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Successfully joined!')),
         );
       }
+    } on PostgrestException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Registration failed: ${e.message}'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } on Exception catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Network error: $e'),
+            backgroundColor: AppColors.warning,
+          ),
+        );
+      }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Unknown error: $e')),
+        );
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -71,6 +95,8 @@ class _EventDetailUserScreenState
           .read(registrationRepositoryProvider)
           .leaveEvent(event.id, userId);
       ref.invalidate(eventsStreamProvider);
+      ref.invalidate(currentUserProvider);
+      ref.invalidate(userRegistrationsProvider);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Left event successfully')),

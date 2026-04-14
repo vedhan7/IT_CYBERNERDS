@@ -7,10 +7,10 @@ class RegistrationRepository {
 
   /// Join an event
   Future<void> joinEvent(String eventId, String userId) async {
-    await _client.from('registrations').upsert(
-      {'event_id': eventId, 'user_id': userId},
-      onConflict: 'event_id,user_id',
-    );
+    await _client.from('registrations').insert({
+      'event_id': eventId,
+      'user_id': userId,
+    });
   }
 
   /// Leave an event

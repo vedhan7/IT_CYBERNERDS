@@ -216,7 +216,18 @@ class AuthRepository {
         );
       }
 
-      final appUser = AppUser.fromJson(results[0]);
+      final Map<String, dynamic> userMap = Map<String, dynamic>.from(results[0]);
+      try {
+        final countResult = await _client
+            .from('registrations')
+            .select('id')
+            .eq('user_id', user.id);
+        userMap['join_count'] = (countResult as List).length;
+      } catch (_) {
+        userMap['join_count'] = 0;
+      }
+
+      final appUser = AppUser.fromJson(userMap);
       debugPrint('✅ SIGN-IN COMPLETE: ${appUser.email} (${appUser.role})');
       return appUser;
 
@@ -251,7 +262,19 @@ class AuthRepository {
           .eq('id', authUser.id);
 
       if ((results as List).isEmpty) return null;
-      return AppUser.fromJson(results[0]);
+      
+      final Map<String, dynamic> userMap = Map<String, dynamic>.from(results[0]);
+      try {
+        final countResult = await _client
+            .from('registrations')
+            .select('id')
+            .eq('user_id', authUser.id);
+        userMap['join_count'] = (countResult as List).length;
+      } catch (_) {
+        userMap['join_count'] = 0;
+      }
+      
+      return AppUser.fromJson(userMap);
     } catch (e) {
       debugPrint('⚠️ Failed to fetch user profile: $e');
       return null;
